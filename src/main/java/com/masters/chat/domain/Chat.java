@@ -32,9 +32,6 @@ public class Chat {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @ManyToMany
-    private Set<User> admins = new HashSet<>();
-
     @Column(name = "chat_name")
     private String chatName;
 

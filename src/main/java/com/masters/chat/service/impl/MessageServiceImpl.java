@@ -51,7 +51,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<MessageDto> getChatsMessages(Integer chatId, UserDto reqUser) {
+    public List<MessageDto> getMessagesByChatId(Integer chatId, UserDto reqUser) {
         var chat = chatService.findChatById(chatId);
         if (!chat.getUsers().contains(reqUser)) {
             throw new UserException("You are not hte member of this chat");

@@ -79,7 +79,6 @@ public class ChatServiceImpl implements ChatService {
                 .chatName(groupChatRequest.getChatName())
                 .createdBy(reqUser)
                 .users(users)
-                .admins(Set.of(reqUser))
                 .build();
         chatRepository.save(group);
         return chatMapper.toDto(group);
@@ -99,7 +98,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     private ChatDto addUserToGroupIfAdmin(Chat chat, User reqUser, User user) {
-        if (chat.getAdmins().contains(reqUser)) {
+        if (chat.getCreatedBy().equals(reqUser)) {
             chat.getUsers().add(user);
             log.info("User with id: {} successfully added to chat with id: {}", user.getId(), chat.getId());
             chatRepository.save(chat);
@@ -119,7 +118,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     private ChatDto renameGroupIfParticipant(Chat chat, String groupName, User reqUser) {
-        if (chat.getUsers().contains(reqUser)) {
+        if (chat.getCreatedBy().equals(reqUser)) {
             chat.setChatName(groupName);
             log.info("Group with id: {} successfully renamed to {} by user with id {} ",
                     chat.getId(), groupName, reqUser.getId());
@@ -143,7 +142,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     private ChatDto removeUserFromGroupIfAdminOrSelfDelete(Chat chat, User reqUser, User user) {
-        if (chat.getAdmins().contains(reqUser)) {
+        if (chat.getCreatedBy().equals(reqUser)) {
             chat.getUsers().remove(user);
             log.info("User with id: {} successfully removed from chat with id: {}", user.getId(), chat.getId());
             chatRepository.save(chat);

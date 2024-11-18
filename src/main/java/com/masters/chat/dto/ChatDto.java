@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 public class ChatDto {
 
     private Integer id;
-    private Set<UserDto> admins;
     private String chatName;
     private String chatImage;
     private boolean isGroup;

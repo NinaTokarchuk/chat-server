@@ -45,11 +45,6 @@ public class AppConfig {
                 .cors().configurationSource(request -> {
                     var corsConfiguration = new CorsConfiguration();
                     corsConfiguration.addAllowedOriginPattern("*");
-//                    setAllowedOrigins(List.of(
-//                            "*",
-//                            "http://localhost:3000"
-//                    ));
-
                     corsConfiguration.setAllowedMethods(singletonList("*"));
                     corsConfiguration.setAllowCredentials(true);
                     corsConfiguration.setAllowedHeaders(singletonList("*"));

@@ -30,18 +30,18 @@ public class MessageController {
     private final UserService userService;
 
     @PostMapping("/create")
-    public MessageDto sendMessage(@RequestHeader(AUTHORIZATION_TOKEN_HEADER) String token,
-                                  @RequestBody SendMessageRequestDto sendMessageRequestDto) {
+    public MessageDto createMessage(@RequestHeader(AUTHORIZATION_TOKEN_HEADER) String token,
+                                    @RequestBody SendMessageRequestDto sendMessageRequestDto) {
         var user = userService.findUserByProfile(token);
         sendMessageRequestDto.setUserId(user.getId());
         return messageService.sendMessage(sendMessageRequestDto);
     }
 
     @GetMapping("/chats/{chatId}")
-    public List<MessageDto> getChatsMessage(@RequestHeader(AUTHORIZATION_TOKEN_HEADER) String token,
-                                            @PathVariable Integer chatId) {
+    public List<MessageDto> getMessagesByChatId(@RequestHeader(AUTHORIZATION_TOKEN_HEADER) String token,
+                                                @PathVariable Integer chatId) {
         var user = userService.findUserByProfile(token);
-        return messageService.getChatsMessages(chatId, user);
+        return messageService.getMessagesByChatId(chatId, user);
     }
 
     @DeleteMapping("/{messageId}")
