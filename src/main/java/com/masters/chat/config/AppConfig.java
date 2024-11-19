@@ -35,6 +35,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AppConfig {
 
+    private static final String ALLOWED_ORIGINS = "*";
+    private static final long MAX_AGE = 3600L;
+    private static final String HMACSHA_256 = "HMACSHA256";
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtFilter jwtFilter) throws Exception {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -44,12 +48,12 @@ public class AppConfig {
                 .csrf().disable()
                 .cors().configurationSource(request -> {
                     var corsConfiguration = new CorsConfiguration();
-                    corsConfiguration.addAllowedOriginPattern("*");
-                    corsConfiguration.setAllowedMethods(singletonList("*"));
+                    corsConfiguration.addAllowedOriginPattern(ALLOWED_ORIGINS);
+                    corsConfiguration.setAllowedMethods(singletonList(ALLOWED_ORIGINS));
                     corsConfiguration.setAllowCredentials(true);
-                    corsConfiguration.setAllowedHeaders(singletonList("*"));
+                    corsConfiguration.setAllowedHeaders(singletonList(ALLOWED_ORIGINS));
                     corsConfiguration.setExposedHeaders(List.of(AUTHORIZATION_TOKEN_HEADER));
-                    corsConfiguration.setMaxAge(3600L);
+                    corsConfiguration.setMaxAge(MAX_AGE);
 
                     return corsConfiguration;
                 }).and().formLogin().and().httpBasic();
@@ -60,7 +64,7 @@ public class AppConfig {
     @Bean
     public JwtDecoder jwtDecoder() {
         byte[] keyBytes = Base64.getDecoder().decode(SECRET_KEY);
-        SecretKeySpec keySpec = new SecretKeySpec(keyBytes, "HMACSHA256");
+        SecretKeySpec keySpec = new SecretKeySpec(keyBytes, HMACSHA_256);
 
         return NimbusJwtDecoder.withSecretKey(keySpec).macAlgorithm(MacAlgorithm.HS256).build();
     }
