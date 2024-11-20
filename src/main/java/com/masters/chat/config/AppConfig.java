@@ -1,10 +1,7 @@
 package com.masters.chat.config;
 
-import static com.masters.chat.constants.Constants.ALLOWED_ORIGINS;
-import static com.masters.chat.constants.Constants.AUTHORIZATION_TOKEN_HEADER;
-import static com.masters.chat.constants.Constants.HMACSHA_256;
-import static com.masters.chat.constants.Constants.MAX_AGE;
-import static com.masters.chat.constants.Constants.SECRET_KEY;
+import static com.masters.chat.constants.JwtConstants.AUTHORIZATION_TOKEN_HEADER;
+import static com.masters.chat.constants.JwtConstants.SECRET_KEY;
 import static java.util.Collections.singletonList;
 
 import java.util.Base64;
@@ -38,6 +35,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AppConfig {
 
+    private static final String ALLOWED_ORIGINS = "*";
+    private static final long MAX_AGE = 3600L;
+    private static final String HMACSHA_256 = "HMACSHA256";
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtFilter jwtFilter) throws Exception {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -59,6 +60,7 @@ public class AppConfig {
 
         return http.build();
     }
+
     @Bean
     public JwtDecoder jwtDecoder() {
         byte[] keyBytes = Base64.getDecoder().decode(SECRET_KEY);
@@ -66,10 +68,12 @@ public class AppConfig {
 
         return NimbusJwtDecoder.withSecretKey(keySpec).macAlgorithm(MacAlgorithm.HS256).build();
     }
+
     @Bean
     public JwtEncoder jwtEncoder() {
         return new NimbusJwtEncoder(new ImmutableSecret<>(Base64.getDecoder().decode(SECRET_KEY)));
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

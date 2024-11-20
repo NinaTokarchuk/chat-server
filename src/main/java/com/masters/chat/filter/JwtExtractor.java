@@ -1,7 +1,7 @@
 package com.masters.chat.filter;
 
-import static com.masters.chat.constants.Constants.AUTHORIZATION_TOKEN_HEADER;
-import static com.masters.chat.constants.Constants.BEARER;
+import static com.masters.chat.constants.JwtConstants.AUTHORIZATION_TOKEN_HEADER;
+import static com.masters.chat.constants.JwtConstants.BEARER;
 
 import java.util.Optional;
 import java.util.function.Function;
