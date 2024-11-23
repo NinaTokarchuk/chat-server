@@ -1,6 +1,6 @@
 package com.masters.chat.controller;
 
-import static com.masters.chat.constants.JwtConstants.AUTHORIZATION_TOKEN_HEADER;
+import static com.masters.chat.constants.Constants.AUTHORIZATION_TOKEN_HEADER;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.masters.chat.config;
 
-import static com.masters.chat.constants.JwtConstants.AUTHORIZATION_TOKEN_HEADER;
-import static com.masters.chat.constants.JwtConstants.SECRET_KEY;
+import static com.masters.chat.constants.Constants.AUTHORIZATION_TOKEN_HEADER;
+import static com.masters.chat.constants.Constants.SECRET_KEY;
 import static java.util.Collections.singletonList;
 
 import java.util.Base64;
